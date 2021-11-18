@@ -4,7 +4,7 @@
 CREATE SEQUENCE IF NOT EXISTS cabeceras_id_seq
 
 -- Table Definition
-CREATE TABLE "public"."cabeceras" (
+CREATE TABLE cabeceras (
     "id" int4 DEFAULT nextval('cabeceras_id_seq'::regclass),
     "AREA" varchar NOT NULL,
     "CODE" varchar NOT NULL,

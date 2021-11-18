@@ -25,32 +25,32 @@ const categoriaGet = async (req, res) => {
     const categoriaPost = async (req, res) => {
 
 
-        const { AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION } = req.body.Header;
-   const { PRODUCTOID,PRODUCTONAME } = req.body.Lines;
-
-   
+       const { AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION } = req.body.Header;
+   //const { Header,Lines } = req.body;
+     
+   //console.log(Lines[1].PRODUCTOID)
    
    
    //const cabecera= new Cabecera({ AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION });
-  // const detalle= new Detalle({ PRODUCTOID,PRODUCTONAME  });
+   //const detalle= new Detalle({CODE:cabecera.CODE ,PRODUCTOID,PRODUCTONAME  });
+   
 
    
 
   // await sequelize.sync();
-   const cabecera = await Cabecera.create({ AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION });
-   const detalle = await Detalle.create({PRODUCTOID,PRODUCTONAME });
-   await detalle.addBar(CODE);
-   const fetchedFoo = await detalle.findOne({ include: Detalle })
-  // console.log(JSON.stringify(fetchedFoo, null, 2));
-
-   //await cabecera.save();
+  
+  
+  const cabecera = await Cabecera.create({ AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION });
    
-   //const detalle= new Detalle({PRODUCTOID,PRODUCTONAME})
-  // await detalle.save();
+  req.body.Lines.forEach(async(e) => { 
+    const detalle = await Detalle.create({CODE:cabecera.CODE ,PRODUCTOID:e.PRODUCTOID,PRODUCTONAME:e.PRODUCTONAME});
+  });
+  
+
    res.status(201).json({ 
 
 
-     // cabecera
+    msg: 'La orden se creado con exito '
     }
       );
     };
