@@ -3,60 +3,102 @@ const db =require ('../db/connection');
 
 
 const Cabecera=db.define('Cabecera',{ 
-AREA:{
+   
+   
+    CODLABORATORIO:{
+        type:DataTypes.INTEGER
+    },
+    LABORATORIO:{
+        type:DataTypes.STRING,
+        primaryKey: true,
+    },
+    CODTIPOORDEN:{
+        type:DataTypes.INTEGER
+        
+    },
+    TIPOORDEN:{
+        type:DataTypes.STRING
+    },
+    CODPROCEDENCIA:{
+        type:DataTypes.INTEGER
+    } ,
+    PROCEDENCIA:{
+        type:DataTypes.STRING
+    },
+    CODSERVICIO:{
+        type:DataTypes.INTEGER
+    },
+    SERVICIO:{
+        type:DataTypes.STRING
+    },
+    CODDOCTOR:{
+        type:DataTypes.INTEGER
+    },
+    DOCTOR:{
+        type:DataTypes.STRING
+    } ,  
+IMPRESORA:{
     type:DataTypes.STRING
 },
-CODE:{
+NUMEROORDEN:{
     type:DataTypes.STRING,
     primaryKey: true,
 },
-DATE:{
+FECHAORDEN:{
     type:DataTypes.DATE
     
 },
-HOUR:{
+HORAORDEN:{
     type:DataTypes.TIME
 },
-IDENTIFICATIONTYPE:{
+TIPOIDENTIFICADOR:{
     type:DataTypes.STRING
 } ,
-IDENTIFIER:{
+IDENTIFICADOR:{
+    type:DataTypes.INTEGER
+},
+NOMBRES:{
     type:DataTypes.STRING
 },
-NAME:{
+APELLIDO:{
     type:DataTypes.STRING
 },
-LASTNAME:{
+SEGUNDOAPELLIDO:{
     type:DataTypes.STRING
 },
-SECONDLASTNAME:{
-    type:DataTypes.STRING
-},
-BIRTHDAY:{
+FECHANACIMIENTO:{
     type:DataTypes.DATE
 } ,
-SEX:{
+SEXO:{
     type:DataTypes.STRING
 },
-OBSERVATION:{
+OBSERVACIONES:{
     type:DataTypes.STRING
 } ,
 
+ESTADO:{
+    type:DataTypes.BOOLEAN
 
-},
+
+} ,
+
+} ,
+ 
 
 {
     freezeTableName: true,
-    tableName: "cabeceras"
+    tableName: "cabeceras" 
+} ,
+    {
+       
+        classMethods: {
+        associate: function (models) {
+              Cabecera.belongsTo(models.Detalle, { foreignKey : 'detalle' });
+        }
+       }
+    
 
-// },
-// Cabecera.associate=models=>{
-//     Cabecera.belongsTo(models.Detalle,{
-//         foreingKey,{
-//             allownull:false
-//         }
-//     });
-  
+
 }); 
 
 module.exports= Cabecera; 

@@ -23,7 +23,7 @@ const usuariosGet = async (req, res) => {
 const usuariosGetID = async (req, res) => {
    
     
-    const usuario = await Usuario.find();
+  //  const usuario = await Usuario.find();
 
     res.json({ usuarios });
    
@@ -90,15 +90,15 @@ const usuariosGetID = async (req, res) => {
         //const usuario = await Usuario.findByPk(id);
      
 
-        const {  password,  correo, ...resto } = req.body;
-
+        const {  password, ...resto } = req.body;
+console.log(password)
         if ( password ) {
             // Encriptar la contraseña
             const salt = bcryptjs.genSaltSync();
             resto.password = bcryptjs.hashSync( password, salt );
         }
     
-        const usuario = await Usuario.findCreateFind( id, resto );
+        const usuario = await Usuario.findCreateFind(  resto );
     
 
 
