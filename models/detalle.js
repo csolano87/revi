@@ -4,23 +4,40 @@ const Cabecera = require('./cabecera');
 
 
 const Detalle=db.define('Detalle',{ 
-CODE:{
-    type:DataTypes.STRING
-},
-PRODUCTOID:{
+// CODE:{
+//     type:DataTypes.STRING
+// },
+CODEXAMEN:{
     type:DataTypes.INTEGER
 },
-PRODUCTONAME:{
+EXAMEN:{
     type:DataTypes.STRING
 } ,
+COMENTARIO:{
+    type:DataTypes.STRING
+} ,
+IDCABECERA:{
+    type:DataTypes.INTEGER
+} ,
+
 },
+
 {
+   
+    classMethods: {
+     associate: function (models) {
+      Detalle.hasMany(models.Cabecera, { as: 'detalle', foreignKey : 'detalle' });
+     }
+    },
+
+
+
     freezeTableName: true,
     tableName: "detalles"
 
 });
 
-Cabecera.hasMany(Detalle, { foreignKey: 'CODE' });
+Cabecera.hasMany(Detalle, { foreignKey: 'IDCABECERA' });
 
     
 

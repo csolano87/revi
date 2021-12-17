@@ -35,10 +35,10 @@ if (!validarPassword) {
 //console.log(existeusuario.id)
 const token =await generarJWT(existeusuario.id);
 
-//console.log(existeusuario.id)
+
 console.log(existeusuario)
 
-        // 
+        
 
         res.json({
             existeusuario,

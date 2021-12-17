@@ -23,7 +23,7 @@ router.get('/:id', usuariosGetID );
 
 router.put('/:id',usuariosUpdate );
 
-router.post('/',[validarJWT,
+router.post('/',[
     check('nombre','El nombre es obligatorio').not().isEmpty(),
     check('apellido','El apellido es obligatorio').not().isEmpty(),
     check('correo','El correo es obligatorio').not().isEmpty(),

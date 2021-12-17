@@ -1,6 +1,6 @@
 const { Request, Response } = require('express');
 
-
+const fs = require("fs");
 
 const bcryptjs = require('bcryptjs');
 
@@ -24,33 +24,51 @@ const categoriaGet = async (req, res) => {
 
     const categoriaPost = async (req, res) => {
 
-
-       const { AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION } = req.body.Header;
-   //const { Header,Lines } = req.body;
      
-   //console.log(Lines[1].PRODUCTOID)
+  const {CODTIPOORDEN,TIPOORDEN, CODPROCEDENCIA,PROCEDENCIA,CODSERVICIO,SERVICIO,CODDOCTOR,DOCTOR,IMPRESORA, NUMEROORDEN, FECHAORDEN, HORAORDEN, TIPOIDENTIFICADOR, IDENTIFICADOR, NOMBRES, APELLIDO, SEGUNDOAPELLIDO, FECHANACIMIENTO, SEXO, OBSERVACIONES } = req.body.CABECERA;
    
-   
-   //const cabecera= new Cabecera({ AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION });
-   //const detalle= new Detalle({CODE:cabecera.CODE ,PRODUCTOID,PRODUCTONAME  });
-   
+  const existeorden = await Cabecera.findOne({
+    where: {  NUMEROORDEN: NUMEROORDEN }});
 
-   
+    if (existeorden) {
+      return res.status(400).json({
+      msg:'La orden ya existe'
+      });
+      }
 
-  // await sequelize.sync();
-  
-  
-  const cabecera = await Cabecera.create({ AREA, CODE, DATE, HOUR, IDENTIFICATIONTYPE, IDENTIFIER, NAME, LASTNAME, SECONDLASTNAME, BIRTHDAY, SEX, OBSERVATION });
-   
-  req.body.Lines.forEach(async(e) => { 
-    const detalle = await Detalle.create({CODE:cabecera.CODE ,PRODUCTOID:e.PRODUCTOID,PRODUCTONAME:e.PRODUCTONAME});
+ /*  const cabecera = await Cabecera.create({ CODTIPOORDEN,TIPOORDEN,CODPROCEDENCIA,PROCEDENCIA,CODSERVICIO,SERVICIO,CODDOCTOR,DOCTOR,IMPRESORA, NUMEROORDEN, FECHAORDEN, HORAORDEN, TIPOIDENTIFICADOR, IDENTIFICADOR, NOMBRES, APELLIDO, SEGUNDOAPELLIDO, FECHANACIMIENTO, SEXO, OBSERVACIONES}); */
+ const cabecera = await Cabecera.create({ CODTIPOORDEN,TIPOORDEN,CODPROCEDENCIA,PROCEDENCIA,CODSERVICIO,SERVICIO,CODDOCTOR,DOCTOR,IMPRESORA, NUMEROORDEN, FECHAORDEN, HORAORDEN, TIPOIDENTIFICADOR, IDENTIFICADOR, NOMBRES, APELLIDO, SEGUNDOAPELLIDO, FECHANACIMIENTO, SEXO, OBSERVACIONES});
+
+ 
+
+
+
+
+  req.body.DETALLE.forEach(async(e) => { 
+    const detalle = await Detalle.create({CODEXAMEN:e.CODEXAMEN,EXAMEN:e.EXAMEN,COMENTARIO:e.COMENTARIO,IDCABECERA:cabecera.NUMEROORDEN});
   });
   
+ 
 
+
+  //const filename = `${CODE}-${year}${month}${day}-${hour}${minutes}-${seconds}-${mili}.txt`
+  const filename = `${NUMEROORDEN}.txt`
+               
+  //    //-------------------si funcionaa
+  const id = req.body.DETALLE.map(({ CODEXAMEN }) => CODEXAMEN).join("/n");
+  const name = req.body.DETALLE.map(({ EXAMEN }) => EXAMEN).join("|");
+ 
+  const data =`H|\^&|Roche^^Diagnostics|||Order Entry^Interface||HPBO^^cobas_Infinity||||P|
+P|1|${NUMEROORDEN}|${IDENTIFICADOR}|${APELLIDO} ${SEGUNDOAPELLIDO}|${NOMBRES}|${FECHANACIMIENTO}|${SEXO}|${IDENTIFICADOR}|${TIPOORDEN}|${OBSERVACIONES}||${FECHAORDEN}|${HORAORDEN}
+O|1|${id}|${name}
+ `
+
+  fs.writeFileSync( `${filename}`,data)  
+ 
    res.status(201).json({ 
 
 
-    msg: 'La orden se creado con exito '
+msg:'Guardado con exito'
     }
       );
     };
