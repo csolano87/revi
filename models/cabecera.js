@@ -5,7 +5,13 @@ const db =require ('../db/connection');
 const Cabecera=db.define('Cabecera',{ 
    
    
-  
+    CODLABORATORIO:{
+        type:DataTypes.INTEGER
+    },
+    LABORATORIO:{
+        type:DataTypes.STRING,
+        primaryKey: true,
+    },
     CODTIPOORDEN:{
         type:DataTypes.INTEGER
         

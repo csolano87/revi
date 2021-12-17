@@ -10,7 +10,7 @@ nombre:{
 apellido:{
     type:DataTypes.STRING
 },
-correo:{
+usuario:{
     type:DataTypes.STRING
 },
 password:{

@@ -26,7 +26,7 @@ router.put('/:id',usuariosUpdate );
 router.post('/',[
     check('nombre','El nombre es obligatorio').not().isEmpty(),
     check('apellido','El apellido es obligatorio').not().isEmpty(),
-    check('correo','El correo es obligatorio').not().isEmpty(),
+    check('usuario','El usuario es obligatorio').not().isEmpty(),
     check('password','El password es obligatorio/ min 8 letras').isLength({min :8}),
     check('rol').custom(rolValido),
     validarCampos],usuariosPost );

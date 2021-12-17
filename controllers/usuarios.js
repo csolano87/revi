@@ -36,20 +36,20 @@ const usuariosGetID = async (req, res) => {
 
     const usuariosPost = async (req, res) => {
    
-    const {nombre, apellido,correo, password, rol}=req.body;
+    const {nombre, apellido,usuario, password, rol}=req.body;
 
 
-    const usuario= new Usuario({nombre, apellido,correo, password, rol});
+    const user= new Usuario({nombre, apellido,usuario, password, rol});
    
 
-    const existeUsuario = await Usuario.findOne({
+    const existeUser = await Usuario.findOne({
         where: {
-            correo: usuario.correo
+            usuario: user.usuario
         }
     });
 
   
-    if (existeUsuario) {
+    if (existeUser) {
         return res.status(400).json({
             msg:'Este usuario ya existe'
         });
@@ -58,18 +58,18 @@ const usuariosGetID = async (req, res) => {
 // encriptar 
 
   const salt =bcryptjs.genSaltSync();
-  usuario.password=bcryptjs.hashSync(password, salt )
+  user.password=bcryptjs.hashSync(password, salt )
 
 
 
 //try {
 
     //const usuario=new Usuario(body);
-    await usuario.save();
+    await user.save();
     res.status(201).json({ 
 
 
-       usuario
+       user
      }
        );
 /* } catch (error) {
@@ -98,7 +98,7 @@ console.log(password)
             resto.password = bcryptjs.hashSync( password, salt );
         }
     
-        const usuario = await Usuario.findCreateFind(  resto );
+        const user = await Usuario.findCreateFind(  resto );
     
 
 
@@ -110,16 +110,16 @@ console.log(password)
    
     const {id} =req.params;
   
-    const usuario = await Usuario.findByPk(id);
+    const user = await Usuario.findByPk(id);
    
-    if(!usuario){
+    if(!user){
         return res.status(404).json({
 
             msg:`No existe un usuario con el id ${id}`
         })
     }
    // await usuario.destroy();
-   await usuario.update({estado:false});
+   await user.update({estado:false});
         res.status(200).json({
             msg:'El usuario a sido desactivado con exito...'});
     

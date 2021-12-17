@@ -7,41 +7,41 @@ const { generarJWT } = require('../helpers/generarJWT');
 
 const login=async (req,res)=>{
 
-    const {correo, password}=req.body;
-    const usuario= new Usuario({correo,password});
+    const {usuario, password}=req.body;
+    const user= new Usuario({usuario,password});
     
         //verificar si el correo existe
-        const existeusuario=await Usuario.findOne({
+        const existeuser=await Usuario.findOne({
             where: {
-                correo: usuario.correo
+                usuario: user.usuario
             }
         });
        
 
 //const usuario=await Usuario.findOne({correo});
-if (!existeusuario) {
+if (!existeuser) {
     return res.status(400).json({
         msg:'usuario/ password no son correctos-coreo'
     });
 
 }
 //console.log(password)
- const validarPassword =bcryptjs.compareSync(password, existeusuario.password);
+ const validarPassword =bcryptjs.compareSync(password, existeuser.password);
 if (!validarPassword) {
     return res.status(400).json({
         msg:'usuario no son correctos-pass'
     });
 } 
 //console.log(existeusuario.id)
-const token =await generarJWT(existeusuario.id);
+const token =await generarJWT(existeuser.id);
 
 
-console.log(existeusuario)
+console.log(existeuser)
 
         
 
         res.json({
-            existeusuario,
+            existeuser,
 token
           
         });
