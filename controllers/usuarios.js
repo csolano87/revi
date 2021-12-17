@@ -98,7 +98,11 @@ console.log(password)
             resto.password = bcryptjs.hashSync( password, salt );
         }
     
+<<<<<<< HEAD
         const user = await Usuario.findCreateFind(  resto );
+=======
+        const usuario = await Usuario.findCreateFind(  resto );
+>>>>>>> 07ec100479704ff347dcd1bd236cfa134e5e57a3
     
 
 
